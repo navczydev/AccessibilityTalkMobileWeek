@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AccessibilityTalkMobileWeek</string>
+    <string name="greeting">Hello from compose</string>
+    <string name="label_share">Share</string>
+    <string name="unfavorite">unfavourite</string>
+    <string name="favorite">favorite</string>
+</resources>
