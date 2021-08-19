@@ -1,10 +1,8 @@
 package com.example.accessibilitytalkmobileweek
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
 import android.os.Bundle
-import android.provider.MediaStore
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -31,12 +29,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         findViewById<ImageView>(R.id.imageview_logo_holder).setOnClickListener { // open camera
-            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            /*val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             try {
                 startActivity(takePictureIntent)
             } catch (e: ActivityNotFoundException) {
                 // display error state to the user
-            }
+            }*/
+            // Android 12 Toast improvement
+            Toast.makeText(this, "Toast from Android 12", Toast.LENGTH_LONG).show()
         }
 
         val greetingFromCompose = findViewById<ComposeView>(R.id.greeting)
