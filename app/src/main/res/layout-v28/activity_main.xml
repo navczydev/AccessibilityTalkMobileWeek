@@ -34,10 +34,9 @@
         android:src="@drawable/playstore"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:contentDescription="@string/app_name"
         app:layout_constraintTop_toBottomOf="@id/textview_1"
-         />
-<!--android:contentDescription="@string/app_name"-->
+        android:contentDescription="@string/app_name" />
+
     <TextView
         android:id="@+id/textview_2"
         android:layout_width="wrap_content"

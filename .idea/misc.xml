@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../../layout/compose-model-1634943654225.xml" value="0.49445324881141045" />
         <entry key="../../../../../layout/compose-model-1631670278401.xml" value="0.33" />
         <entry key="../../../../../layout/compose-model-1631670554399.xml" value="0.67" />
         <entry key="../../../../../layout/compose-model-1631670612705.xml" value="0.75" />
@@ -17,7 +18,11 @@
         <entry key="../../../../../layout/compose-model-1633142343973.xml" value="0.5527777777777778" />
         <entry key="../../../../../layout/compose-model-1633229322056.xml" value="0.5092592592592593" />
         <entry key="../../../../../layout/compose-model-1633564565765.xml" value="0.2222222222222222" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.375" />
+        <entry key="../../../../../layout/compose-model-1633834777209.xml" value="0.22314814814814815" />
+        <entry key="../../../../../layout/compose-model-1633918812247.xml" value="0.23055555555555557" />
+        <entry key="app/src/main/res/layout-v28/activity_main.xml" value="0.32708333333333334" />
+        <entry key="app/src/main/res/layout/activity_intent_filter.xml" value="0.21302083333333333" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.22864583333333333" />
       </map>
     </option>

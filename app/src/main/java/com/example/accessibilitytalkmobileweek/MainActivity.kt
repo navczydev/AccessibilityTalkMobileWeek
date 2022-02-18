@@ -9,7 +9,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.ThumbUp
@@ -29,7 +32,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.*
+import androidx.compose.ui.unit.ExperimentalUnitApi
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
+import androidx.compose.ui.unit.sp
 import com.google.android.material.composethemeadapter.MdcTheme
 import kotlin.random.Random
 
@@ -95,7 +101,7 @@ private fun Greeting(
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally,
 
-    ) {
+        ) {
         val focusManager = LocalFocusManager.current
         Image(
             imageVector = Icons.Filled.ThumbUp,
@@ -103,12 +109,14 @@ private fun Greeting(
             modifier = Modifier
                 .focusOrder(first) {
                     this.down = second
+
                 }
                 .focusable(true)
                 .focusTarget()
 
         )
 
+        // Jetpack Compose live templates
         Text(
             text = "Hello World",
             modifier = Modifier
@@ -118,13 +126,14 @@ private fun Greeting(
                     // this.
                 }
         )
+
         IconButton(
             onClick = {
                 // second.requestFocus()
             },
             modifier = Modifier
-                .semantics(mergeDescendants = true) {
-                    // contentDescription = "Share your stuff"
+                .semantics(mergeDescendants = false) {
+                    contentDescription = "Share your stuff"
                 }
                 .fillMaxWidth()
             // .width(200.dp)
@@ -138,14 +147,19 @@ private fun Greeting(
                 Icon(
                     imageVector = Icons.Filled.Share,
 //                contentDescription = stringResource(R.string.label_share),
-                    contentDescription = "Share me ",
+                    contentDescription = "Share me property ",
                     // Clear any semantics properties set on this node
-                    //    Modifier.clearAndSetSemantics { }
-                    Modifier.semantics {
-                        // TODO check which works
-                        contentDescription = "ok"
-                        onClick("Click me to share", clicked)
-                    }
+                    //   Modifier.clearAndSetSemantics { }
+                    Modifier
+                        .semantics {
+                            // TODO check which works
+                            contentDescription = "Share me modifier"
+
+                            //onClick("Click me to share", clicked)
+                        }
+                     .clearAndSetSemantics {
+
+                     }
                 )
             }
         }
@@ -234,7 +248,7 @@ private fun Greeting(
                 .padding(horizontal = dimensionResource(R.dimen.margin_small))
                 .wrapContentWidth(Alignment.CenterHorizontally)
                 .semantics {
-                    liveRegion = LiveRegionMode.Assertive
+                    liveRegion = LiveRegionMode.Polite
                     heading()
                     onClick {
                         clicked?.invoke() ?: false
@@ -269,6 +283,10 @@ private fun Greeting(
             modifier = Modifier
                 .focusRequester(second)
         )*/
+
+        Text(
+            text = "Live templates Jetpack Compose",
+        )
     }
 }
 
