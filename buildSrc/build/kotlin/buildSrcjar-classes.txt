@@ -1,0 +1,1 @@
+/Users/navjotsingh/Documents/Android-Projects/Android-jetpack-compose/AccessibilityTalkMobileWeek/buildSrc/build/classes/kotlin/main/VersionsKt.class

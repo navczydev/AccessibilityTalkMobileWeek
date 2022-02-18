@@ -8,18 +8,17 @@ android {
         google()
         mavenCentral()
     }*/
-   // compileSdk = 31
+    // compileSdk = 31
     compileSdkPreview = "Tiramisu"
-
 
     defaultConfig {
         applicationId = "com.example.accessibilitytalkmobileweek"
         minSdk = 23
         targetSdkPreview = "Tiramisu"
-        //targetSdkVer("Tiramisu")
-        //targetSdkVersion("Tiramisu")
+        // targetSdkVer("Tiramisu")
+        // targetSdkVersion("Tiramisu")
 
-        //targetSdk = 31
+        // targetSdk = 31
         versionCode = 1
         versionName = "1.0"
 
