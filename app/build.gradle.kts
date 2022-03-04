@@ -11,10 +11,12 @@ android {
     // compileSdk = 31
     compileSdkPreview = "Tiramisu"
 
+
     defaultConfig {
         applicationId = "com.example.accessibilitytalkmobileweek"
         minSdk = 23
         targetSdkPreview = "Tiramisu"
+
         // targetSdkVer("Tiramisu")
         // targetSdkVersion("Tiramisu")
 
