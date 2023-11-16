@@ -1,129 +1,123 @@
 package com.example.accessibilitytalkmobileweek
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.widget.ImageView
+import android.os.CountDownTimer
+import android.view.View
+import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.filled.ThumbUp
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.clearAndSetSemantics
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.heading
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
+import com.example.accessibilitytalkmobileweek.databinding.ActivityMainBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.time.Duration
+import java.util.Date
+import java.util.Locale
+
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var activityMainBinding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
+            .also { setContentView(it.root) }
 
-        findViewById<ImageView>(R.id.imageview_logo_holder).setOnClickListener { // open camera
-            /*val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            try {
-                startActivity(takePictureIntent)
-            } catch (e: ActivityNotFoundException) {
-                // display error state to the user
-            }*/
-            // Android 12 Toast improvement
-            Toast.makeText(this, "Toast from Android 12", Toast.LENGTH_LONG).show()
-        }
 
-        val greetingFromCompose = findViewById<ComposeView>(R.id.greeting)
-
-        greetingFromCompose.setContent {
+        activityMainBinding.cvHolder.setContent {
             MaterialTheme { // or AppCompatTheme
-                Greeting(
+                MainComposable(
                     clicked = {
-
                         true
                     },
-                    isFavorite = true
                 )
             }
         }
-    }
-}
 
-@Preview(showBackground = true)
-@Composable
-private fun Greeting(
-    onClick: () -> Unit = {},
-    clicked: () -> Boolean,
-    isFavorite: Boolean = false
-) {
-    val actionLabel = stringResource(
-        if (isFavorite) R.string.unfavorite else R.string.favorite
-    )
 
-    Column(
-        Modifier
-            // .clickable(onClick = {})
-            .fillMaxWidth()
-            .semantics(mergeDescendants = false) {
-                //  customActions = listOf(CustomAccessibilityAction(actionLabel, clicked))
-//                onLongClick("long clicked") { clicked() }
-//                onClick("single click") { clicked.invoke() }
-            },
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
 
-    ) {
-        Image(imageVector = Icons.Filled.ThumbUp, contentDescription = null)
-        IconButton(
-            onClick = {
-            },
-            modifier = Modifier
-                .semantics(mergeDescendants = true) {
-                    contentDescription = "Share your stuff"
+        activityMainBinding.imgvLogoHolder.contentDescription = "ContentDescriptions goes here..."
+
+        activityMainBinding.tvTimer.accessibilityDelegate = object : View.AccessibilityDelegate() {
+            override fun onInitializeAccessibilityNodeInfo(
+                host: View,
+                info: AccessibilityNodeInfo
+            ) {
+                super.onInitializeAccessibilityNodeInfo(host, info)
+                // Android14 - Frequency of announcements - When to use - Timer, Progress, video, seek info etc.
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    info.minDurationBetweenContentChanges = Duration.ofSeconds(10L)
                 }
-                .width(200.dp)
-                .height(200.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Share,
-//                contentDescription = stringResource(R.string.label_share),
-                contentDescription = null,
-                // Clear any semantics properties set on this node
-                Modifier
-                    .clearAndSetSemantics { }
-                /*Modifier.semantics {
-                    onClick("Click me to share") { clicked.invoke() }
-                }*/
-            )
+            }
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = stringResource(R.string.greeting),
-            style = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = dimensionResource(R.dimen.margin_small))
-                .wrapContentWidth(Alignment.CenterHorizontally)
-                .semantics {
-                    // liveRegion = LiveRegionMode.Assertive
-                    heading()
-                }
+
+        showTimer()
+
+        // Add custom actions
+        ViewCompat.addAccessibilityAction(
+            // View to add accessibility action
+            /* view = */ activityMainBinding.imgvLogoHolder,
+            // Label surfaced to user by an accessibility service
+            /* label = */ getText(R.string.favorite)
         )
+        /* command = */ { view, commandArguments ->
+            // Same method executed when swiping on itemView
+            Toast.makeText(view.context, "Toast from custom action", Toast.LENGTH_SHORT).show()
+            true
+        }
+
+
+        ViewCompat.replaceAccessibilityAction(
+            // View that contains touch & hold action
+            activityMainBinding.btnOpenDetails,
+            AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_LONG_CLICK,
+            // Announcement read by TalkBack to surface this action
+            getText(R.string.see_more_account_options),
+            null
+        )
+
+        ViewCompat.setAccessibilityDelegate(
+            activityMainBinding.btnOpenDetails,
+            BalanceDetailsAccessibilityDelegate()
+        )
+
+        lifecycleScope.launch {
+            delay(10000)
+            activityMainBinding.tvError.isVisible = true
+        }
+
+        activityMainBinding.btnOpenDetails.setOnLongClickListener {
+            Toast.makeText(it.context, "Toast from long click event", Toast.LENGTH_SHORT).show()
+            true
+        }
+
+        activityMainBinding.btnHeading.setOnClickListener {
+            val intent = Intent(this, HeadingDemoActivity::class.java)
+            startActivity(intent)
+        }
+
+
+    }
+
+    private fun showTimer() {
+
+        object : CountDownTimer(60000, 1000) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                activityMainBinding.tvTimer.text = "seconds remaining: " + millisUntilFinished / 1000
+            }
+
+            override fun onFinish() {
+                activityMainBinding.tvTimer.text = getString(R.string.done)
+            }
+        }.start()
     }
 }
+
+

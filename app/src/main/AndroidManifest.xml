@@ -9,6 +9,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AccessibilityTalkMobileWeek">
         <activity
+            android:name=".HeadingDemoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AccessibilityTalkMobileWeek" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
