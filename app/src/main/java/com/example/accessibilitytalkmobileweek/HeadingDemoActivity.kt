@@ -36,13 +36,17 @@ class HeadingDemoActivity : AppCompatActivity() {
                 .setAnchorView(R.id.fab).show()
         }
 
+        binding.fab.viewTreeObserver.addOnGlobalLayoutListener {
+            Log.d(TAG, "onCreate: laid out")
+        }
+
         binding.fab.accessibilityDelegate = object : View.AccessibilityDelegate() {
             override fun onInitializeAccessibilityNodeInfo(
                 host: View,
                 info: AccessibilityNodeInfo
             ) {
                 super.onInitializeAccessibilityNodeInfo(host, info)
-
+                Log.d(TAG, "onInitializeAccessibilityNodeInfo: Add accessibility delegate")
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                     Log.d(TAG, "onInitializeAccessibilityNodeInfo: ")
                     info.setRequestInitialAccessibilityFocus(true)
@@ -57,7 +61,7 @@ class HeadingDemoActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
-    companion object{
+    companion object {
         private const val TAG = "HeadingDemoActivity"
     }
 }
